@@ -42,13 +42,14 @@
 				// also inject target into the event object
 				evt.target = evt.srcElement || _this;
 				evt.currentTarget = _this;
-				listener.call( evt.target, evt );
+				if( typeof listener === 'function' ) listener.call( evt.target, evt );
 			} );
 		}
 		// Technically for IE (also for Firefox, but this will only ever run in IE) it's Window.prototype,
 		// but in theory window.constructor.prototype is a safer reference for any browser.
 		window.constructor.prototype.addEventListener = _addEventListener;
 		HTMLElement.prototype.addEventListener = _addEventListener;
+		HTMLDocument.prototype.addEventListener = _addEventListener;
 	}
 
 
