@@ -1,6 +1,7 @@
 (function() {
 
 	var forEach = Wedge.Collections.forEach;
+	var applyThroughIteration = Wedge.Collections.applyThroughIteration;
 
 	/**
 	 * Reload functionality
@@ -129,35 +130,13 @@
 		}
 	}
 
-	function _applyThroughIteration( fromClass, iterateClass ) { // localize var scope
-		forEach( function( propRef, propName, protoRef  ) {
-			if( typeof propRef === 'function' && propRef.prototype && !iterateClass.prototype[propName] ) {
-				//console.debug( 'Adding ', propName, ' from ', fromClass, ' to ', iterateClass, ' through iteration...' );
-
-				iterateClass.prototype[propName] = ( function() {
-					//console.debug( 'executing anon func...' );
-					var funcName = propName; //init closure
-					return function( args ) {
-						var returnValue = false; 
-						//console.debug( 'applying to collection...', this, args );
-						forEach( function() {
-							//console.debug( 'applying function to iteration...', this, fromClass, funcName );
-							this instanceof fromClass ? returnValue = this[funcName]( args ) : false; //retain closure
-						}, this );
-						return returnValue;
-					}
-				} )();
-			}
-		}, fromClass.prototype );
-	};
-
 	/**
 	 * NodeList class management
 	 * 
 	 * Inherits all local HTMLElement functions, applied via the 'forEach' iterator.
 	 */
-	_applyThroughIteration( HTMLElement, NodeList );
-	if( typeof StaticNodeList != 'undefined' ) _applyThroughIteration( HTMLElement, StaticNodeList ); //IE
+	applyThroughIteration( HTMLElement, NodeList );
+	if( typeof StaticNodeList != 'undefined' ) applyThroughIteration( HTMLElement, StaticNodeList ); //IE
 
 	/**
 	 * Query selector impl

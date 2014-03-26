@@ -20,6 +20,30 @@ window.Wedge.Collections =
 		}
 	}
 
+
+	function _applyThroughIteration( fromClass, iterateClass ) { // localize var scope
+		_forEach( function( propRef, propName, protoRef  ) {
+			if( typeof propRef === 'function' && propRef.prototype && !iterateClass.prototype[propName] ) {
+				//console.debug( 'Adding ', propName, ' from ', fromClass, ' to ', iterateClass, ' through iteration...' );
+
+				iterateClass.prototype[propName] = ( function() {
+					//console.debug( 'executing anon func...' );
+					var funcName = propName; //init closure
+					return function( args ) {
+						var returnValue = false;
+						//console.debug( 'applying to collection...', this, args );
+						_forEach( function() {
+							//console.debug( 'applying function to iteration...', this, fromClass, funcName );
+							this instanceof fromClass ? returnValue = this[funcName]( args ) : false; //retain closure
+						}, this );
+						return returnValue;
+					}
+				} )();
+			}
+		}, fromClass.prototype );
+	};
+
+
 	/*
 	   if( !Object.prototype.forEach ) {
 	   Object.prototype.forEach = _forEach;
@@ -59,6 +83,7 @@ if( !Array.prototype.toJSON ) {
 
 	//Public
 	return {
-		forEach: _forEach
+		forEach: _forEach,
+		applyThroughIteration: _applyThroughIteration
 	}
 })();
