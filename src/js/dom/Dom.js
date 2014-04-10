@@ -12,6 +12,13 @@
 		}
 	}
 
+	/*
+	 * HTMLDocument definition for IE 10
+	 */
+	if( !window.HTMLDocument && window.Document ) {
+		window.HTMLDocument = Document;
+	}
+
 	/**
 	 * Node and HTMLElement definition for IE
 	 */
