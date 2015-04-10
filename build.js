@@ -4,6 +4,7 @@ var outFile = 'build/wedge.js';
 var sourceFiles = [
 	// JS
 	//'src/js/core/Core.js',
+    'src/js/core/String.js',
 	'src/js/core/Console.js',
 	'src/js/core/Collections.js',
 	'src/js/dom/Dom.js',

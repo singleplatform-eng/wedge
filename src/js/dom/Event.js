@@ -33,7 +33,7 @@
         };
     }
 
-	if( typeof HTMLElement.prototype.addEventListener === 'undefined' ) {
+	if( !HTMLElement.prototype.addEventListener ) {
 		function _addEventListener( type, listener, useCapture ) {
 			var _this = this;
 			// This has to be implemented as a custom function, because IE loses reference to the event target
@@ -51,6 +51,14 @@
 		HTMLElement.prototype.addEventListener = _addEventListener;
 		HTMLDocument.prototype.addEventListener = _addEventListener;
 	}
+	if( !HTMLElement.prototype.removeEventListener ) {
+		function _removeEventListener( type, listener, useCapture ) {
+			this.detachEvent( 'on' + type, listener );
+		}
+		window.constructor.prototype.removeEventListener = _removeEventListener;
+		HTMLElement.prototype.removeEventListener = _removeEventListener;
+		HTMLDocument.prototype.removeEventListener = _removeEventListener;
+	}
 
 
     // preventDefault
@@ -61,4 +69,11 @@
         Event.prototype.preventDefault = _preventDefault;
     }
 
+    // preventDefault
+    if( !Event.prototype.stopPropagation) {
+        function _stopPropagation() {
+            this.cancelBubble = true;
+        }
+        Event.prototype.stopPropagation= _stopPropagation;
+    }
 })();

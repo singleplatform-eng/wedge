@@ -1,0 +1,29 @@
+{
+  "name": "wedge",
+  "version": "0.0.0",
+  "homepage": "https://github.com/spikesagal/wedge",
+  "authors": [
+    "Alexander Sagalovskiy <spikesagal@gmail.com>"
+  ],
+  "description": "A client-side JavaScript library focused on fixing browser compatibility via implementing W3 specs.",
+  "main": "build/wedge.js",
+  "keywords": [
+    "w3js",
+    "polyfill",
+    "compatibility",
+    "legacy",
+    "browser",
+    "fix",
+    "ie8",
+    "internet",
+    "explorer"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

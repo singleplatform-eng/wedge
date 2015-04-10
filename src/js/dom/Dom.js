@@ -3,6 +3,21 @@
 	var forEach = Wedge.Collections.forEach;
 	var applyThroughIteration = Wedge.Collections.applyThroughIteration;
 
+    /**
+     * Computed style
+     */
+    if( !window.getComputedStyle ) {
+        window.getComputedStyle = function getComputedStyle( element ) {
+            return {
+                getPropertyValue: function getPropertyValue( propName ) {
+                    var propNameConverted = propName.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+                    return element.currentStyle[ propNameConverted ];
+                }
+            };
+        }
+    }
+
+
 	/**
 	 * Reload functionality
 	 */
@@ -115,6 +130,7 @@
 			return this.classList ? this.classList.contains( className ) : ( this.className.match(new RegExp('(^|\\s)' + className + '(?:\\s|$)')) ? true : false );
 		}
 	}
+    /*
 	if( !HTMLElement.prototype.show ) {
 		HTMLElement.prototype.show = function() {
 			this.style.display == 'none' ? ( this.style.display = this.style.displayWhenVisible || '' ) : false;
@@ -125,12 +141,11 @@
 			this.style.display != 'none' ? ( this.style.displayWhenVisible = this.style.display, this.style.display = 'none' ) : false;
 		}
 		
-		/*
 		Wedge.dom.hide = function ( element ) {
 			element.style.display != 'none' ? ( element.style.displayWhenVisible = element.style.display, element.style.display = 'none' ) : false;
 		}
-		*/
 	}
+    */
 	if( !HTMLElement.prototype.remove ) {
 		HTMLElement.prototype.remove = function() {
 			this.parentNode.removeChild( this );
